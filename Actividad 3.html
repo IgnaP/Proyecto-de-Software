@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Actividad 3</title>
+<script>
+function validateForm() {
+  var id = document.getElementById('identificacion').value;
+  var i=0;
+  alert(document.table["tabla"].tr[1].th["id"]);
+  while (i < document.getElementById('tabla').rows.length) {
+    if (id == document.table["tabla"].tr[i].th["id"]) {
+      alert("Error");
+      return false;
+    }
+    i++;
+  }
+}
+</script>
+</head>
+<body>
+<h1>Instrumentos</h1>
+
+<div>
+  <table id="tabla" name="tabla" style="width:100%">
+   <tr>
+     <th name="id">ID</th>
+     <th>Tipo</th>
+     <th>Observaciones</th>
+   </tr>
+  </table>
+</div>
+<div>
+  <form name="form" action="" onsubmit="return validateForm()" method="post">
+    <fieldset>
+      <legend>Agregar instrumento</legend>
+      Identificacion*:
+      <input id="identificacion" type="text" name="identificacion" required>
+      Tipo*:
+      <select name="tipo" required>
+        <option value="piano">Piano</option>
+        <option value="violin">Violin</option>
+        <option value="violonchelo">Violonchelo</option>
+        <option value="flauta">Flauta</option>
+        <option value="trombon">Trombon</option>
+        <option value="oboe">Oboe</option>
+      </select>
+      Observaciones:
+      <textarea name="message" maxlength="255" style="width:300px; height:100px;"></textarea>
+      <input type="submit" value="Submit">
+    </fieldset>
+  </form>
+</div>
+</body>
+</html>
