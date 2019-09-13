@@ -1,54 +1,137 @@
 <!DOCTYPE html>
 <html>
 <head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="Estilo.css">
 <title>Actividad 3</title>
 <script>
-function validateForm() {
-  var id = document.getElementById('identificacion').value;
-  var i=0;
-  alert(document.table["tabla"].tr[1].th["id"]);
-  while (i < document.getElementById('tabla').rows.length) {
-    if (id == document.table["tabla"].tr[i].th["id"]) {
-      alert("Error");
-      return false;
-    }
+window.onload = function(){
+  var decodedCookie = decodeURIComponent(document.cookie);
+  var ca = decodedCookie.split(';');
+  var i = 0;
+  while (i <ca.length) {
+    var cookie = ca[i].split('=');
+    i++;
+    var cookie2 = ca[i].split('=');
+    nuevaFila(cookie[0],cookie[1],cookie2[1]);
     i++;
   }
+}
+function validateForm() {
+  // var id = document.getElementById('identificacion').value;
+  // var i=0;
+  // alert(document.table["tabla"].tr[1].th["id"]);
+  // while (i < document.getElementById('tabla').rows.length) {
+  //   if (id == document.table["tabla"].tr[i].th["id"]) {
+  //     alert("Error");
+  //     return false;
+  //   }
+  //   i++;
+  // }
+  var id=document.getElementById('identificacion').value;
+  var tipo=document.getElementById('tipo').value;
+  var obs=document.getElementById('observaciones').value;
+  if (getCookie(id)=="") {
+    setCookie(id,tipo);
+    setCookie(id+"o",obs);
+  }
+}
+function nuevaFila(id,tipo,obs){
+  var tableRef = document.getElementById('tabla').getElementsByTagName('tbody')[0];
+  // Insert a row in the table at the last row
+  var newRow   = tableRef.insertRow();
+  // Insert a cell in the row at index 0
+  var newCell  = newRow.insertCell(0);
+  // Append a text node to the cell
+  var newText  = document.createTextNode(id);
+  newCell.appendChild(newText);
+
+  var newCell  = newRow.insertCell(1);
+  var newText  = document.createTextNode(tipo);
+  newCell.appendChild(newText);
+  var newCell  = newRow.insertCell(2);
+  var newText  = document.createTextNode(obs);
+  newCell.appendChild(newText);
+}
+function setCookie(cname, cvalue) {
+  document.cookie = cname + "=" + cvalue;
+}
+function getCookie(cname) {
+  var name = cname + "=";
+  var decodedCookie = decodeURIComponent(document.cookie);
+  var ca = decodedCookie.split(';');
+  for(var i = 0; i <ca.length; i++) {
+    var c = ca[i];
+    while (c.charAt(0) == ' ') {
+      c = c.substring(1);
+    }
+    if (c.indexOf(name) == 0) {
+      return c.substring(name.length, c.length);
+    }
+  }
+  return "";
 }
 </script>
 </head>
 <body>
-<h1>Instrumentos</h1>
-
-<div>
-  <table id="tabla" name="tabla" style="width:100%">
-   <tr>
-     <th name="id">ID</th>
-     <th>Tipo</th>
-     <th>Observaciones</th>
-   </tr>
-  </table>
-</div>
-<div>
-  <form name="form" action="" onsubmit="return validateForm()" method="post">
-    <fieldset>
-      <legend>Agregar instrumento</legend>
-      Identificacion*:
-      <input id="identificacion" type="text" name="identificacion" required>
-      Tipo*:
-      <select name="tipo" required>
-        <option value="piano">Piano</option>
-        <option value="violin">Violin</option>
-        <option value="violonchelo">Violonchelo</option>
-        <option value="flauta">Flauta</option>
-        <option value="trombon">Trombon</option>
-        <option value="oboe">Oboe</option>
-      </select>
-      Observaciones:
-      <textarea name="message" maxlength="255" style="width:300px; height:100px;"></textarea>
-      <input type="submit" value="Submit">
-    </fieldset>
-  </form>
-</div>
+  <div class="mainDiv">
+    <h1>Instrumentos</h1>
+    <div class="">
+      <table id="tabla" name="tabla" style="width:100%">
+        <thead>
+          <tr>
+            <th name="id">ID</th>
+            <th>Tipo</th>
+            <th>Observaciones</th>
+          </tr>
+        </thead>
+        <tbody>
+        </tbody>
+      </table>
+    </div>
+    <div class="">
+      <form id="form" name="form" action="" onsubmit="validateForm()" method="post">
+        <fieldset>
+          <legend>Agregar instrumento</legend>
+          <div class="row">
+            <div class="col-25">
+              <label for="identificacion">Identificacion*:</label>
+            </div>
+            <div class="col-75">
+              <input id="identificacion" type="text" name="identificacion" placeholder="Ingrese una ID..." required>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-25">
+              <label for="tipo">Tipo*:</label>
+            </div>
+            <div class="col-75">
+              <select id="tipo" name="tipo" required>
+                <option value="Piano">Piano</option>
+                <option value="Violin">Violin</option>
+                <option value="Violonchelo">Violonchelo</option>
+                <option value="Flauta">Flauta</option>
+                <option value="Trombon">Trombon</option>
+                <option value="Oboe">Oboe</option>
+              </select>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-25">
+              <label for="observaciones">Observaciones:</label>
+            </div>
+            <div class="col-75">
+              <textarea id="observaciones" name="message" maxlength="255" placeholder="Ingrese observaciones..." style="height:100px;"></textarea>
+            </div>
+          </div>
+          <div class="row">
+            <input id="submit" type="submit" value="Submit">
+          </div>
+        </fieldset>
+      </form>
+    </div>
+  </div>
 </body>
 </html>
